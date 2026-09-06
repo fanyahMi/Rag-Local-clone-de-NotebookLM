@@ -1,0 +1,36 @@
+Introduction au RAG (Retrieval-Augmented Generation)
+
+Le RAG, ou génération augmentée par récupération, est une technique qui combine
+deux composants : un système de recherche d'information (retrieval) et un modèle
+de langage génératif (generation). Contrairement à un LLM classique qui répond
+uniquement à partir de ses connaissances internes acquises lors de l'entraînement,
+un système RAG va d'abord chercher des informations pertinentes dans une base de
+documents externe, puis utilise ces informations comme contexte pour générer une
+réponse plus précise et vérifiable.
+
+Le pipeline RAG se déroule généralement en trois étapes principales. La première
+étape est l'ingestion des documents : les fichiers sources (PDF, texte, pages web)
+sont chargés puis découpés en petits segments appelés chunks. La deuxième étape
+est la vectorisation : chaque chunk est transformé en vecteur numérique grâce à
+un modèle d'embeddings, puis stocké dans une base de données vectorielle comme
+ChromaDB ou FAISS. La troisième étape est la génération : lorsqu'un utilisateur
+pose une question, celle-ci est également vectorisée, puis comparée aux vecteurs
+stockés pour retrouver les chunks les plus proches sémantiquement. Ces chunks
+servent alors de contexte à un LLM qui rédige la réponse finale.
+
+L'un des principaux avantages du RAG est de réduire les hallucinations, c'est-à-dire
+les réponses inventées par le modèle. En contraignant le LLM à s'appuyer sur des
+documents réels et vérifiables, on améliore la fiabilité des réponses. De plus,
+le RAG permet de mettre à jour les connaissances du système simplement en ajoutant
+de nouveaux documents, sans avoir besoin de ré-entraîner le modèle de langage.
+
+Le chunking est une étape cruciale du pipeline. Si les segments sont trop grands,
+la recherche perd en précision. S'ils sont trop petits, on perd le contexte
+nécessaire à la compréhension. Un chevauchement (overlap) entre les chunks
+consécutifs est souvent utilisé pour éviter de couper une information importante
+entre deux segments.
+
+Des outils comme Ollama permettent d'exécuter des modèles de langage en local,
+sur sa propre machine, sans envoyer de données vers des services externes comme
+OpenAI. Cela garantit la confidentialité des documents traités, ce qui est
+particulièrement important pour des données sensibles ou personnelles.
